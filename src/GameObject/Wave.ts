@@ -29,7 +29,7 @@ class Wave extends Entity2D {
     }
 
     render(context: CanvasRenderingContext2D) {
-        context.strokeRect(this.x, this.y, this.width, this.height);
+        // context.strokeRect(this.x, this.y, this.width, this.height);
         this.enemies.forEach(e => e.render(context));
     }
 
@@ -41,6 +41,7 @@ class Wave extends Entity2D {
             this.y += this.game.enemySize;
         }
         this.enemies.forEach(e => e.update(this.x, this.y));
+        this.enemies = this.enemies.filter(object => !object.markedForRemove);
     }
 }
 
