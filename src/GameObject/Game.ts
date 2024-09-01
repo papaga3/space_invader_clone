@@ -1,5 +1,6 @@
 import Player from "./Player";
 import Projectile from "./Projectile";
+import Wave from "./Wave";
 
 class Game {
     canvas: HTMLCanvasElement;
@@ -9,6 +10,12 @@ class Game {
     numberOfProjectTiles: number;
     projectilePool: Array<Projectile>;
 
+    // Enemy wave variables
+    enemyColunm: number;
+    enemyRow: number;
+    enemySize: number;
+    waves: Array<Wave>;
+
     player: Player;
     constructor(canvas: HTMLCanvasElement) {
         this.canvas = canvas;
@@ -16,9 +23,19 @@ class Game {
         this.height = canvas.height;
         this.keys = [];
         this.player = new Player(this);
+
+        // initialize projectile object pool
         this.projectilePool = [];
         this.numberOfProjectTiles = 10;
         this.createProjectilePool();
+
+        // initialize enemy wave
+        this.enemyColunm = 3;
+        this.enemyRow = 3;
+        this.enemySize = 60;
+
+        this.waves = [];
+        this.waves.push(new Wave(this));
 
         window.addEventListener("keydown", e => {
             // only add key if the key pressed is not in the array
@@ -52,11 +69,13 @@ class Game {
     update() {
         this.player.update();
         this.projectilePool.forEach(p => p.update());
+        this.waves.forEach(w => w.update());
     }
 
     render(context: CanvasRenderingContext2D) {
         this.player.render(context);
         this.projectilePool.forEach(p => p.render(context));
+        this.waves.forEach(w => w.render(context));
     }
 }
 
