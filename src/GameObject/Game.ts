@@ -30,8 +30,8 @@ class Game {
         this.createProjectilePool();
 
         // initialize enemy wave
-        this.enemyColunm = 3;
-        this.enemyRow = 3;
+        this.enemyColunm = 6;
+        this.enemyRow = 2;
         this.enemySize = 60;
 
         this.waves = [];

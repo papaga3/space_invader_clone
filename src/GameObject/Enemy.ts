@@ -11,6 +11,7 @@ class Enemy extends Entity2D {
         this.game = game;
         this.wavePosX = row * game.enemySize;
         this.wavePosY = column * game.enemySize;
+        console.log(`x: ${this.x} ; y: ${this.y}`);
     }
 
     render(context: CanvasRenderingContext2D) {

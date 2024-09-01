@@ -11,19 +11,19 @@ class Wave extends Entity2D {
     speedY: number;
 
     constructor(game: Game) {
-        super(game.enemyColunm * game.enemySize, game.enemyRow * game.enemySize, 0, 0);
+        super(game.enemyColunm * game.enemySize, game.enemyRow * game.enemySize, 0, -game.enemyRow * game.enemySize);
         this.game = game;
         this.speedX = 3;
         this.speedY = 0;
-
         this.enemies = [];
         this.createEnemies();
+        console.log(this.enemies);
     }
 
     createEnemies() {
-        for(let i = 0; i < this.game.enemyRow; i++) {
-            for(let j = 0; j < this.game.enemyColunm; j++) {
-                this.enemies.push(new Enemy(this.game, i, j));
+        for(let y = 0; y < this.game.enemyRow; y++) {
+            for(let x = 0; x < this.game.enemyColunm; x++) {
+                this.enemies.push(new Enemy(this.game, x, y));
             }
         }
     }
@@ -34,13 +34,13 @@ class Wave extends Entity2D {
     }
 
     update() {
+        if(this.y < 0) this.y += 5;
         this.x += this.speedX;
         if(this.x < 0 || this.x > this.game.width - this.width) { 
             this.speedX = -this.speedX; 
             this.y += this.game.enemySize;
         }
         this.enemies.forEach(e => e.update(this.x, this.y));
-        console.log(this.enemies);
     }
 }
 
