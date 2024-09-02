@@ -30,6 +30,7 @@ class Enemy extends Entity2D {
             if(collisionDetection(this, p) && !p.free) {
                 this.markedForRemove = true;
                 p.reset();
+                this.game.score += 1;
             }
         });
     }

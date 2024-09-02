@@ -10,6 +10,7 @@ window.addEventListener("load", function() {
     canvas.height = 800;
     context.fillStyle = "white";
     context.strokeStyle = "white";
+    context.font = "30px Impact"
 
     const game = new Game(canvas);
 

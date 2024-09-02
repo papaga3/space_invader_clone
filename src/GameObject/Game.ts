@@ -16,6 +16,9 @@ class Game {
     enemySize: number;
     waves: Array<Wave>;
 
+    // Game status
+    score: number;
+
     player: Player;
     constructor(canvas: HTMLCanvasElement) {
         this.canvas = canvas;
@@ -36,6 +39,9 @@ class Game {
 
         this.waves = [];
         this.waves.push(new Wave(this));
+
+        // initialize status
+        this.score = 0;
 
         window.addEventListener("keydown", e => {
             // only add key if the key pressed is not in the array
@@ -64,6 +70,11 @@ class Game {
         }
     }
 
+    /****** Draw status text *********/
+    drawStatusText(context: CanvasRenderingContext2D) {
+        context.fillText(`Score: ${this.score}`, 20, 40);
+    }
+
 
     /********** RENDER AND UPDATE GAME  ***********/
     update() {
@@ -73,6 +84,7 @@ class Game {
     }
 
     render(context: CanvasRenderingContext2D) {
+        this.drawStatusText(context);
         this.player.render(context);
         this.projectilePool.forEach(p => p.render(context));
         this.waves.forEach(w => w.render(context));
