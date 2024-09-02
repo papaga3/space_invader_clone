@@ -22,6 +22,12 @@ class Game {
     waveCount: number;
 
     player: Player;
+
+    // Sprite animation variables
+    spriteUpdate: boolean;
+    spriteTimer: number;
+    spriteInterval: number;
+
     constructor(canvas: HTMLCanvasElement) {
         this.canvas = canvas;
         this.width = canvas.width;
@@ -46,6 +52,12 @@ class Game {
         this.score = 0;
         this.gameOver = false;
         this.waveCount = 1;
+
+        // initialize sprite animation timer
+        this.spriteUpdate = false;
+        this.spriteTimer = 0;
+        this.spriteInterval = 120; // only update sprite every 120ms
+
         
         /**************** GAME EVENTS *************/
         window.addEventListener("keydown", e => {
@@ -138,7 +150,14 @@ class Game {
         });
     }
 
-    render(context: CanvasRenderingContext2D) {
+    render(context: CanvasRenderingContext2D, deltaTime: number) {
+        if(this.spriteTimer > this.spriteInterval) {
+            this.spriteUpdate = true;
+            this.spriteTimer = 0;
+        } else {
+            this.spriteTimer += deltaTime;
+            this.spriteUpdate = false;
+        }
         this.drawStatusText(context);
         this.player.render(context);
         this.projectilePool.forEach(p => p.render(context));

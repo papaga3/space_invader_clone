@@ -14,7 +14,6 @@ class BeetleMorph extends Enemy {
         this.maxLives = this.lives;
     }
     override render(context: CanvasRenderingContext2D): void {
-        console.log(this.image);
         if(this.image === undefined) {
             super.render(context);
         } else {

@@ -22,7 +22,12 @@ window.addEventListener("load", function() {
 
     const game = new Game(canvas);
 
-    function animate() {
+    let lastTime = 0;
+
+    function animate(timeStamp: number) {
+        let deltaTime = timeStamp - lastTime;
+        lastTime = timeStamp;
+
         // clear canvas
         context.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -30,12 +35,12 @@ window.addEventListener("load", function() {
         game.update();
 
         // render scene
-        game.render(context);
+        game.render(context, deltaTime);
 
         // request redraw
         window.requestAnimationFrame(animate);
     }
 
-    animate();
+    animate(lastTime);
 });
 
