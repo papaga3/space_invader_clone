@@ -37,7 +37,7 @@ class Game {
         // initialize enemy wave
         this.enemyColunm = 2;
         this.enemyRow = 2;
-        this.enemySize = 60;
+        this.enemySize = 80;
 
         this.waves = [];
         this.waves.push(new Wave(this));
@@ -53,7 +53,6 @@ class Game {
             if(this.keys.indexOf(e.key) === -1) this.keys.push(e.key);
 
             // shooting
-            console.log(e.key);
             if((e.key === 'q' || e.key === 'Q') && !this.player.basicAtkFired) {
                 this.player.shoot();
                 this.player.basicAtkFired = true;

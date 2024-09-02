@@ -7,18 +7,38 @@ class Enemy extends Entity2D {
     wavePosX: number;
     wavePosY: number;
     markedForRemove: boolean;
+    image: HTMLImageElement | undefined;
+
+
+    lives: number;
+    maxFrame: number;
+    maxLives: number;
+    frameX: number;
+    frameY: number;
 
     constructor(game: Game, row: number, column: number) {
         super(game.enemySize, game.enemySize ,row * game.enemySize, column * game.enemySize);
         this.game = game;
         this.wavePosX = row * game.enemySize;
         this.wavePosY = column * game.enemySize;
-        console.log(`x: ${this.x} ; y: ${this.y}`);
         this.markedForRemove = false;
+        this.image = undefined;
+
+        // default lives and frame value of enemy
+        this.lives = 0;
+        this.maxFrame = 0;
+        this.maxLives = 0;
+        this.frameX = 0;
+        this.frameY = 0;
     }
 
     render(context: CanvasRenderingContext2D) {
         context.strokeRect(this.x, this.y, this.width, this.height);
+    }
+
+    hit(damage: number) {
+        this.lives -= damage;
+
     }
 
     update(waveX: number, waveY: number) {
@@ -28,11 +48,18 @@ class Enemy extends Entity2D {
         // check collision between projectile and enemy
         this.game.projectilePool.forEach(p => {
             if(collisionDetection(this, p) && !p.free) {
-                this.markedForRemove = true;
+                this.hit(1);
                 p.reset();
-                if(!this.game.gameOver) this.game.score += 1;
             }
         });
+
+        if(this.lives < 1) {
+            this.frameX++;
+            if(this.frameX > this.maxFrame) {
+                this.markedForRemove = true;
+            }
+            if(!this.game.gameOver) this.game.score += this.maxLives;
+        }
 
         // Check collision between enemy and player
         if(collisionDetection(this, this.game.player)) {

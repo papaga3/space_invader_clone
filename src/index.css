@@ -6,3 +6,7 @@
     translate: -50% -50%;
     background: url("asset/background.png");
 }
+
+#beetle_morph_sprite_sheet {
+    display: none;
+}
