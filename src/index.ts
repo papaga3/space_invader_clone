@@ -1,16 +1,10 @@
 import "./index.css";
 import Game from "./GameObject/Game";
-import BeetleMorphImg from "./asset/beetlemorph.png";
+// import Player from "./asset/player.png";
+// import PlayerJet from "./asset/player_jets.png";
 
 // Initialize game when the page first loaded
 window.addEventListener("load", function() {
-
-    // Initialize asset onload
-    let img = new Image();
-    img.src = BeetleMorphImg;
-    img.id = "beetle_morph_sprite_sheet";
-    const asset = document.getElementById('asset') as HTMLDivElement;
-    asset.appendChild(img);
 
     const canvas: HTMLCanvasElement = document.getElementById("gameCanvas") as HTMLCanvasElement;
     const context = canvas.getContext("2d") as CanvasRenderingContext2D;
