@@ -7,6 +7,7 @@ class Player extends Entity2D {
     speed: number;
     game: Game;
     lives: number;
+    maxLives: number;
     basicAtkFired: boolean;
     image: HTMLImageElement;
     jets_image: HTMLImageElement;
@@ -18,6 +19,7 @@ class Player extends Entity2D {
         this.game = game;
         this.speed = 5;
         this.lives = 3;
+        this.maxLives = 10;
         this.basicAtkFired = false;
         this.image = document.getElementById("player_sprite_sheet") as HTMLImageElement;
         this.jets_image = document.getElementById("player_jets") as HTMLImageElement;

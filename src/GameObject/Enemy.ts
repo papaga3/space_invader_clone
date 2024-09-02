@@ -47,14 +47,12 @@ class Enemy extends Entity2D {
         // check collision between projectile and enemy
         this.game.projectilePool.forEach(p => {
             if(collisionDetection(this, p) && !p.free && this.lives > 0) {
-                console.log(this.lives);
                 this.hit(1);
                 p.reset();
             }
         });
 
         if(this.lives < 1) {
-            // console.log("update");
             if(this.game.spriteUpdate) {
                 this.frameX++;
             }
@@ -68,13 +66,12 @@ class Enemy extends Entity2D {
         if(collisionDetection(this, this.game.player) && this.lives > 0) {
             this.lives = 0;
             this.game.player.lives--;
-            if(this.game.player.lives < 1) this.game.gameOver = true;
         }
 
         // If the enemy reach the end of the screen => game over
-        if(this.y + this.height > this.game.height) {
+        // If the player has no life => game over
+        if(this.y + this.height > this.game.height || this.game.player.lives < 1) {
             this.game.gameOver = true;
-            this.markedForRemove = true;
         }
     }
 }

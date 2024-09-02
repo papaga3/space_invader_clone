@@ -107,9 +107,16 @@ class Game {
 
         context.fillText(`Score: ${this.score}`, 20, 40);
         context.fillText(`Wave: ${this.waveCount}`, 20, 80);
-        for(let i = 0; i < this.player.lives; i++) {
-            context.fillRect(20 + 10 * i, 100, 5, 20)
+
+        // Drawing player current and max lives
+        for(let i = 0; i < this.player.maxLives; i++) {
+            context.strokeRect(20 + 20 * i, 100, 10, 15)
         }
+
+        for(let i = 0; i < this.player.lives; i++) {
+            context.fillRect(20 + 20 * i, 100, 10, 15)
+        }
+
         if(this.gameOver) {
             context.textAlign = "center";
             context.font = "100px Impact";
@@ -145,7 +152,7 @@ class Game {
                 this.waveCount++;
                 this.newWave();
                 w.triggerNextWave = true;
-                this.player.lives++;
+                if(this.player.lives < this.player.maxLives) this.player.lives++;
             }
         });
     }
