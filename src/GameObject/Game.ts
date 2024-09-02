@@ -46,18 +46,33 @@ class Game {
         this.score = 0;
         this.gameOver = false;
         this.waveCount = 1;
-
+        
+        /**************** GAME EVENTS *************/
         window.addEventListener("keydown", e => {
             // only add key if the key pressed is not in the array
             if(this.keys.indexOf(e.key) === -1) this.keys.push(e.key);
 
             // shooting
-            if(e.key === 'q') this.player.shoot(); 
+            console.log(e.key);
+            if((e.key === 'q' || e.key === 'Q') && !this.player.basicAtkFired) {
+                this.player.shoot();
+                this.player.basicAtkFired = true;
+            }
+
+            // restart game
+            if((e.key === 'r' || e.key === 'R') && this.gameOver) this.restart();
         });
 
         window.addEventListener("keyup", e => {
             const index = this.keys.indexOf(e.key);
             if(index > -1 ) this.keys.splice(index, 1);
+
+            // shooting release
+            // to prevent the player from holding down basic attack button
+            if(e.key === 'q' || e.key === 'Q') {
+                this.player.basicAtkFired = false;
+            }
+
         });
     }
 
@@ -89,7 +104,7 @@ class Game {
             context.font = "100px Impact";
             context.fillText("Game over", this.width * 0.5, this.height * 0.5);
             context.font = "30px Impact";
-            context.fillText("Press R to reload")
+            context.fillText("Press R to reload", this.width * 0.5, this.height * 0.5 + 30);
         }
 
         // restore canvas state
@@ -106,6 +121,8 @@ class Game {
         }
         this.waves.push(new Wave(this));
     }
+
+
 
     /********** RENDER AND UPDATE GAME  ***********/
     update() {
@@ -127,6 +144,21 @@ class Game {
         this.player.render(context);
         this.projectilePool.forEach(p => p.render(context));
         this.waves.forEach(w => w.render(context));
+    }
+
+    /***** RESTART THE GAME ******/
+    restart() {
+        this.player.restart();
+        this.enemyColunm = 2;
+        this.enemyRow = 2;
+
+        this.waves = [];
+        this.waves.push(new Wave(this));
+
+        // initialize status
+        this.score = 0;
+        this.gameOver = false;
+        this.waveCount = 1;
     }
 }
 

@@ -7,12 +7,14 @@ class Player extends Entity2D {
     speed: number;
     game: Game;
     lives: number;
+    basicAtkFired: boolean;
 
     constructor(game: Game) {
         super(100, 100, game.width * 0.5 - 100 * 0.5, game.height - 100);
         this.game = game;
         this.speed = 5;
         this.lives = 3;
+        this.basicAtkFired = false;
     }
 
     // shoot a projectile
@@ -35,6 +37,14 @@ class Player extends Entity2D {
         // which will allow it to shoot enemy at the edge of the screen.
         if(this.x < -this.width * 0.5) this.x = -this.width * 0.5;
         else if(this.x > this.game.width - this.width * 0.5) this.x = this.game.width - this.width * 0.5;
+    }
+
+    restart() {
+        // reset player positon
+        this.x = this.game.width * 0.5 - 100 * 0.5;
+        this.y = this.game.height - 100;
+
+        this.lives = 3;
     }
 }
 
