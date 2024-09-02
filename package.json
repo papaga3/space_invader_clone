@@ -23,6 +23,6 @@
   "scripts": {
     "build": "webpack --mode=development",
     "watch": "webpack --mode=development --watch",
-    "start": "webpack serve --mode=development --watch"
+    "start": "webpack serve --mode=development"
   }
 }

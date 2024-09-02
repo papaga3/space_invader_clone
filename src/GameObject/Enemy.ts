@@ -48,17 +48,21 @@ class Enemy extends Entity2D {
         // check collision between projectile and enemy
         this.game.projectilePool.forEach(p => {
             if(collisionDetection(this, p) && !p.free && this.lives > 0) {
+                console.log(this.lives);
                 this.hit(1);
                 p.reset();
             }
         });
 
         if(this.lives < 1) {
-            if(this.game.spriteUpdate) this.frameX++;
+            // console.log("update");
+            if(this.game.spriteUpdate) {
+                this.frameX++;
+            }
             if(this.frameX > this.maxFrame) {
+                if(!this.game.gameOver) this.game.score += this.maxLives;
                 this.markedForRemove = true;
             }
-            if(!this.game.gameOver) this.game.score += this.maxLives;
         }
 
         // Check collision between enemy and player

@@ -6,7 +6,7 @@ class Projectile extends Entity2D {
     free: boolean;
 
     constructor() {
-        super(8, 20, 0, 0);
+        super(3, 20, 0, 0);
         this.speed = 20;
         this.free = true;
     }
@@ -14,7 +14,11 @@ class Projectile extends Entity2D {
     // The projectile will only be update and render when it is in the active pool
     render(context: CanvasRenderingContext2D) {
         if(!this.free) {
+            context.save();
+            context.fillStyle = "yellow";
             context.fillRect(this.x, this.y, this.width, this.height);
+            context.restore();
+
         }
     }
 
