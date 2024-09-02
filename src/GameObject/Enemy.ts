@@ -9,7 +9,6 @@ class Enemy extends Entity2D {
     markedForRemove: boolean;
     image: HTMLImageElement | undefined;
 
-
     lives: number;
     maxFrame: number;
     maxLives: number;
@@ -66,9 +65,8 @@ class Enemy extends Entity2D {
         }
 
         // Check collision between enemy and player
-        if(collisionDetection(this, this.game.player)) {
-            this.markedForRemove = true;
-            if(!this.game.gameOver && this.game.score > 0) this.game.score--;
+        if(collisionDetection(this, this.game.player) && this.lives > 0) {
+            this.lives = 0;
             this.game.player.lives--;
             if(this.game.player.lives < 1) this.game.gameOver = true;
         }

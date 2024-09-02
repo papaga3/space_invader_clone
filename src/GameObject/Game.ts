@@ -37,7 +37,7 @@ class Game {
 
         // initialize projectile object pool
         this.projectilePool = [];
-        this.numberOfProjectTiles = 10;
+        this.numberOfProjectTiles = 15;
         this.createProjectilePool();
 
         // initialize enemy wave
@@ -56,7 +56,7 @@ class Game {
         // initialize sprite animation timer
         this.spriteUpdate = false;
         this.spriteTimer = 0;
-        this.spriteInterval = 120; // only update sprite every 120ms
+        this.spriteInterval = 150; // only update sprite every 120ms
 
         
         /**************** GAME EVENTS *************/
@@ -159,8 +159,8 @@ class Game {
             this.spriteUpdate = false;
         }
         this.drawStatusText(context);
-        this.player.render(context);
         this.projectilePool.forEach(p => p.render(context));
+        this.player.render(context);
         this.waves.forEach(w => w.render(context));
     }
 
