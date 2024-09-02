@@ -88,6 +88,8 @@ class Game {
             context.textAlign = "center";
             context.font = "100px Impact";
             context.fillText("Game over", this.width * 0.5, this.height * 0.5);
+            context.font = "30px Impact";
+            context.fillText("Press R to reload")
         }
 
         // restore canvas state
