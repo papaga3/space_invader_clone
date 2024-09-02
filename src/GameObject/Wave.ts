@@ -9,6 +9,7 @@ class Wave extends Entity2D {
     enemies: Array<Enemy>;
     speedX: number;
     speedY: number;
+    triggerNextWave: boolean;
 
     constructor(game: Game) {
         super(game.enemyColunm * game.enemySize, game.enemyRow * game.enemySize, 0, -game.enemyRow * game.enemySize);
@@ -17,7 +18,7 @@ class Wave extends Entity2D {
         this.speedY = 0;
         this.enemies = [];
         this.createEnemies();
-        console.log(this.enemies);
+        this.triggerNextWave = false;
     }
 
     createEnemies() {

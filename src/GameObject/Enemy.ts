@@ -30,9 +30,23 @@ class Enemy extends Entity2D {
             if(collisionDetection(this, p) && !p.free) {
                 this.markedForRemove = true;
                 p.reset();
-                this.game.score += 1;
+                if(!this.game.gameOver) this.game.score += 1;
             }
         });
+
+        // Check collision between enemy and player
+        if(collisionDetection(this, this.game.player)) {
+            this.markedForRemove = true;
+            if(!this.game.gameOver && this.game.score > 0) this.game.score--;
+            this.game.player.lives--;
+            if(this.game.player.lives < 1) this.game.gameOver = true;
+        }
+
+        // If the enemy reach the end of the screen => game over
+        if(this.y + this.height > this.game.height) {
+            this.game.gameOver = true;
+            this.markedForRemove = true;
+        }
     }
 }
 

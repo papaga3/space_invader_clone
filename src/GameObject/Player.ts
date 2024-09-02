@@ -6,11 +6,13 @@ class Player extends Entity2D {
  
     speed: number;
     game: Game;
-    
+    lives: number;
+
     constructor(game: Game) {
         super(100, 100, game.width * 0.5 - 100 * 0.5, game.height - 100);
         this.game = game;
         this.speed = 5;
+        this.lives = 3;
     }
 
     // shoot a projectile

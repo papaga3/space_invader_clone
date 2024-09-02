@@ -18,6 +18,8 @@ class Game {
 
     // Game status
     score: number;
+    gameOver: boolean;
+    waveCount: number;
 
     player: Player;
     constructor(canvas: HTMLCanvasElement) {
@@ -33,8 +35,8 @@ class Game {
         this.createProjectilePool();
 
         // initialize enemy wave
-        this.enemyColunm = 7;
-        this.enemyRow = 3;
+        this.enemyColunm = 2;
+        this.enemyRow = 2;
         this.enemySize = 60;
 
         this.waves = [];
@@ -42,6 +44,8 @@ class Game {
 
         // initialize status
         this.score = 0;
+        this.gameOver = false;
+        this.waveCount = 1;
 
         window.addEventListener("keydown", e => {
             // only add key if the key pressed is not in the array
@@ -72,15 +76,48 @@ class Game {
 
     /****** Draw status text *********/
     drawStatusText(context: CanvasRenderingContext2D) {
+        // save canvas state
+        context.save();
+
         context.fillText(`Score: ${this.score}`, 20, 40);
+        context.fillText(`Wave: ${this.waveCount}`, 20, 80);
+        for(let i = 0; i < this.player.lives; i++) {
+            context.fillRect(20 + 10 * i, 100, 5, 20)
+        }
+        if(this.gameOver) {
+            context.textAlign = "center";
+            context.font = "100px Impact";
+            context.fillText("Game over", this.width * 0.5, this.height * 0.5);
+        }
+
+        // restore canvas state
+        context.restore();
     }
 
+
+    /**** Spawn new enemy wave *****/
+    newWave() {
+        if(Math.random() < 0.5 && this.enemyColunm * this.enemySize < this.width * 0.8) {
+            this.enemyColunm++;
+        } else if(this.enemyRow * this.enemySize < this.height * 0.6){
+            this.enemyRow++;
+        }
+        this.waves.push(new Wave(this));
+    }
 
     /********** RENDER AND UPDATE GAME  ***********/
     update() {
         this.player.update();
         this.projectilePool.forEach(p => p.update());
-        this.waves.forEach(w => w.update());
+        this.waves.forEach(w => {
+            w.update();
+            if(w.enemies.length === 0 && !w.triggerNextWave && !this.gameOver) {
+                this.waveCount++;
+                this.newWave();
+                w.triggerNextWave = true;
+                this.player.lives++;
+            }
+        });
     }
 
     render(context: CanvasRenderingContext2D) {
