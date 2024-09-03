@@ -1,6 +1,9 @@
 # A space invader clone
 This project is made using the Franks laboratory tutorial and asset
 
+## Online play
+The game is hosted on github link: https://papaga3.github.io/space_invader_clone/
+
 ## How to run the project
 1.  Clone the project to your local machine
 2.  Run `yarn install` to install dependency
