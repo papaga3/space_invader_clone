@@ -1,7 +1,8 @@
 // This represent a wave of enemy.
 
 import Enemy from "./Enemy";
-import BeetleMorph from "./enemyType/Beetlemorph";
+import BeetleMorph from "./enemyType/BeetleMorph";
+import RhinoMorph from "./enemyType/RhinoMorph";
 import Entity2D from "./Entity2D";
 import Game from "./Game";
 
@@ -11,6 +12,7 @@ class Wave extends Entity2D {
     speedX: number;
     speedY: number;
     triggerNextWave: boolean;
+    markForRemove: boolean;
 
     constructor(game: Game) {
         const width = game.enemyColunm * game.enemySize;
@@ -21,12 +23,17 @@ class Wave extends Entity2D {
         this.enemies = [];
         this.createEnemies();
         this.triggerNextWave = false;
+        this.markForRemove = false;
     }
 
     createEnemies() {
         for(let y = 0; y < this.game.enemyRow; y++) {
             for(let x = 0; x < this.game.enemyColunm; x++) {
-                this.enemies.push(new BeetleMorph(this.game, x, y));
+                if(Math.random() < 0.3 && this.game.waveCount > 2) {
+                    this.enemies.push(new RhinoMorph(this.game, x, y));
+                } else {
+                    this.enemies.push(new BeetleMorph(this.game, x, y));
+                }
             }
         }
     }
@@ -46,6 +53,9 @@ class Wave extends Entity2D {
         }
         this.enemies.forEach(e => e.update(this.x, this.y));
         this.enemies = this.enemies.filter(object => !object.markedForRemove);
+        if(this.enemies.length < 1) {
+            this.markForRemove = true;
+        }
     }
 }
 

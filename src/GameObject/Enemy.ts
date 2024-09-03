@@ -37,7 +37,6 @@ class Enemy extends Entity2D {
 
     hit(damage: number) {
         this.lives -= damage;
-
     }
 
     update(waveX: number, waveY: number) {

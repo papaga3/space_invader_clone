@@ -138,6 +138,7 @@ class Game {
             this.enemyRow++;
         }
         this.waves.push(new Wave(this));
+        this.waves = this.waves.filter(w => !w.markForRemove);
     }
 
 
