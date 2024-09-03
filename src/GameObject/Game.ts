@@ -1,3 +1,4 @@
+import Boss from "./enemyType/Boss";
 import Player from "./Player";
 import Projectile from "./Projectile";
 import Wave from "./Wave";
@@ -15,6 +16,7 @@ class Game {
     enemyRow: number;
     enemySize: number;
     waves: Array<Wave>;
+    bosses: Array<Boss>;
 
     // Game status
     score: number;
@@ -46,7 +48,10 @@ class Game {
         this.enemySize = 80;
 
         this.waves = [];
-        this.waves.push(new Wave(this));
+        // this.waves.push(new Wave(this));
+
+        this.bosses = [];
+        this.bosses.push(new Boss(this));
 
         // initialize status
         this.score = 0;
@@ -156,6 +161,8 @@ class Game {
                 if(this.player.lives < this.player.maxLives) this.player.lives++;
             }
         });
+        this.bosses.forEach(b => b.update());
+        this.bosses = this.bosses.filter(b => !b.markForRemove);
     }
 
     render(context: CanvasRenderingContext2D, deltaTime: number) {
@@ -170,6 +177,7 @@ class Game {
         this.projectilePool.forEach(p => p.render(context));
         this.player.render(context);
         this.waves.forEach(w => w.render(context));
+        this.bosses.forEach(b => b.render(context));
     }
 
     /***** RESTART THE GAME ******/
@@ -180,6 +188,8 @@ class Game {
 
         this.waves = [];
         this.waves.push(new Wave(this));
+
+        this.bosses = [];
 
         // initialize status
         this.score = 0;
