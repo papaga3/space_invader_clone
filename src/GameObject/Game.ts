@@ -48,10 +48,10 @@ class Game {
         this.enemySize = 80;
 
         this.waves = [];
-        // this.waves.push(new Wave(this));
+        this.waves.push(new Wave(this));
 
         this.bosses = [];
-        this.bosses.push(new Boss(this));
+        // this.bosses.push(new Boss(this));
 
         // initialize status
         this.score = 0;
@@ -137,13 +137,20 @@ class Game {
 
     /**** Spawn new enemy wave *****/
     newWave() {
-        if(Math.random() < 0.5 && this.enemyColunm * this.enemySize < this.width * 0.8) {
-            this.enemyColunm++;
-        } else if(this.enemyRow * this.enemySize < this.height * 0.6){
-            this.enemyRow++;
+        this.waveCount++;
+        if(this.player.lives < this.player.maxLives) this.player.lives++;
+        if((this.waveCount % 4 === 0) && this.waveCount > 0) {
+            this.bosses.push(new Boss(this));
+        } else 
+        {
+            if(Math.random() < 0.5 && this.enemyColunm * this.enemySize < this.width * 0.8) {
+                this.enemyColunm++;
+            } else if(this.enemyRow * this.enemySize < this.height * 0.6){
+                this.enemyRow++;
+            }
+            this.waves.push(new Wave(this));
+            this.waves = this.waves.filter(w => !w.markForRemove);
         }
-        this.waves.push(new Wave(this));
-        this.waves = this.waves.filter(w => !w.markForRemove);
     }
 
 
@@ -155,10 +162,8 @@ class Game {
         this.waves.forEach(w => {
             w.update();
             if(w.enemies.length === 0 && !w.triggerNextWave && !this.gameOver) {
-                this.waveCount++;
                 this.newWave();
                 w.triggerNextWave = true;
-                if(this.player.lives < this.player.maxLives) this.player.lives++;
             }
         });
         this.bosses.forEach(b => b.update());

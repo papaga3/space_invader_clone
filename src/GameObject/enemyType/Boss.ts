@@ -21,7 +21,7 @@ class Boss extends Entity2D {
         this.speedX = (Math.random() < 0.5) ? -1 : 1
         this.speedY = 0;
 
-        this.lives = 10;
+        this.lives = this.game.waveCount + 6;
         this.maxLives = this.lives;
         this.markForRemove = false;
 
@@ -44,9 +44,9 @@ class Boss extends Entity2D {
             this.y += 4;
         }        
 
-        if(this.x < 0 || this.x > this.game.width - this.width) {
+        if(this.x < 0 || this.x > this.game.width - this.width && this.lives > 0) {
             this.speedX = -this.speedX;
-            this.speedY = 200;
+            this.speedY = this.height * 0.5;
         }
         this.x += this.speedX;
         this.y += this.speedY;
@@ -67,7 +67,6 @@ class Boss extends Entity2D {
         // boss destroyed
         if(this.lives < 1 && this.game.spriteUpdate) {
             this.frameX++;
-            
             if(this.frameX > this.maxFrame) {
                 this.markForRemove = true;
                 if(!this.game.gameOver) this.game.newWave();
