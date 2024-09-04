@@ -18,5 +18,6 @@ The game is hosted on github link: https://papaga3.github.io/space_invader_clone
 ## Game rule
 +   Destroy the wave before it reach you.
 +   Each wave destroyed, the player will gain 1 life
++   Every 4th wave, there will be a boss
 
 
