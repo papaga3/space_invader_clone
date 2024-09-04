@@ -1,3 +1,4 @@
+import Boss from "./enemyType/Boss";
 import Player from "./Player";
 import Projectile from "./Projectile";
 import Wave from "./Wave";
@@ -15,6 +16,7 @@ class Game {
     enemyRow: number;
     enemySize: number;
     waves: Array<Wave>;
+    bosses: Array<Boss>;
 
     // Game status
     score: number;
@@ -47,6 +49,9 @@ class Game {
 
         this.waves = [];
         this.waves.push(new Wave(this));
+
+        this.bosses = [];
+        // this.bosses.push(new Boss(this));
 
         // initialize status
         this.score = 0;
@@ -132,12 +137,20 @@ class Game {
 
     /**** Spawn new enemy wave *****/
     newWave() {
-        if(Math.random() < 0.5 && this.enemyColunm * this.enemySize < this.width * 0.8) {
-            this.enemyColunm++;
-        } else if(this.enemyRow * this.enemySize < this.height * 0.6){
-            this.enemyRow++;
+        this.waveCount++;
+        if(this.player.lives < this.player.maxLives) this.player.lives++;
+        if((this.waveCount % 4 === 0) && this.waveCount > 0) {
+            this.bosses.push(new Boss(this));
+        } else 
+        {
+            if(Math.random() < 0.5 && this.enemyColunm * this.enemySize < this.width * 0.8) {
+                this.enemyColunm++;
+            } else if(this.enemyRow * this.enemySize < this.height * 0.6){
+                this.enemyRow++;
+            }
+            this.waves.push(new Wave(this));
+            this.waves = this.waves.filter(w => !w.markForRemove);
         }
-        this.waves.push(new Wave(this));
     }
 
 
@@ -149,12 +162,12 @@ class Game {
         this.waves.forEach(w => {
             w.update();
             if(w.enemies.length === 0 && !w.triggerNextWave && !this.gameOver) {
-                this.waveCount++;
                 this.newWave();
                 w.triggerNextWave = true;
-                if(this.player.lives < this.player.maxLives) this.player.lives++;
             }
         });
+        this.bosses.forEach(b => b.update());
+        this.bosses = this.bosses.filter(b => !b.markForRemove);
     }
 
     render(context: CanvasRenderingContext2D, deltaTime: number) {
@@ -169,6 +182,7 @@ class Game {
         this.projectilePool.forEach(p => p.render(context));
         this.player.render(context);
         this.waves.forEach(w => w.render(context));
+        this.bosses.forEach(b => b.render(context));
     }
 
     /***** RESTART THE GAME ******/
@@ -179,6 +193,8 @@ class Game {
 
         this.waves = [];
         this.waves.push(new Wave(this));
+
+        this.bosses = [];
 
         // initialize status
         this.score = 0;
